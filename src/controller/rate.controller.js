@@ -1,0 +1,4 @@
+const RateController = {
+    createRate: {},
+    getTopProductByRate: {},
+}
