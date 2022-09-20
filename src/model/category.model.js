@@ -14,7 +14,9 @@ const CategorySchema = new Schema({
     required: true,
     default: "category_default.png",
   },
+}, {
+  collection: 'categories'
 });
 
-const Category = mongoose.model("Category", CategorySchema);
-module.exports = Category;
+const _category = mongoose.model("categories", CategorySchema);
+module.exports = _category;

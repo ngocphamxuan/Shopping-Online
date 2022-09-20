@@ -1,7 +1,7 @@
 const ApiStatus = require("../constant/ApiStatus");
 const HttpStatus = require("../constant/HttpStatus");
 const CustomError = require("../error/CustomError");
-const Product = require("../model/product");
+const Product = require("../model/product.model");
 const {resp} = require("../payload/response");
 const ProductService = require("../service/product.service");
 const MessageResponse = require("../constant/MessageResponse")
@@ -59,7 +59,11 @@ const ProductController = {
       return resp(res, HttpStatus.INTERNAL_SERVER_ERROR, ApiStatus.OTHER_ERR, MessageResponse.OTHER_ERR, {})
     }
   },
-  filterProduct: {},
+  filterProduct: async(req, res) => {
+    //field: price, rating, 
+    //field: top selling, startPrice, endPrice
+    //field: category
+  },
   deleteProduct: {},
 };
 

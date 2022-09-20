@@ -11,6 +11,24 @@ const CartController = {
     }
   },
   updateCart: {},
+  addToCart: async (req, res, next) => {
+    /*
+    request: {
+      productID,
+      customerID,
+      quantity,
+    }
+    */
+    try {
+      const quantity = req.body.quantity
+      const productId = req.body.productId
+      const customerId = req.body.customerId
+      const data = await CartService.addProductToCart(productId, customerId, quantity)
+      
+    } catch (error) {
+      
+    }
+  }
 };
 
 module.exports = CartController;

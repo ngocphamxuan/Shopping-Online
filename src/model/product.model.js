@@ -27,27 +27,29 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
-    type: Number,
-    required: true,
-    default: 1,
-  },
   price: {
     type: Number,
     required: true,
     default: 1,
   },
-  // rateId: {
-  //   type: Schema.Types.ObjectId,
-  //   required: true,
-  //   ref: "Rate",
-  // },
-  // discountId: {
-  //   type: Schema.Types.ObjectId,
-  //   default: DISCOUNT.ID_DEFAULT,
-  //   ref: "Discount",
-  // },
+  onTheTop: {
+    type: Boolean,
+    default: true,
+  },
+  rateId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Rate",
+  },
+  discountId: {
+    type: Schema.Types.ObjectId,
+    default: DISCOUNT.ID_DEFAULT,
+    ref: "Discount",
+  },
+}, {
+  collection: 'products',
+  timestamps: true,
 });
 
-const Product = mongoose.model("Product", ProductSchema);
-module.exports = Product;
+const _product = mongoose.model("products", ProductSchema);
+module.exports = _product;

@@ -24,10 +24,13 @@ const ShippingAddressSchema = new Schema({
   subStreet: {
     type: String,
   },
+},{
+  collection: 'shippingAddress',
+  timestamps: true,
 });
 
-const ShippingAddress = mongoose.model(
-  "ShippingAddress",
+const _shippingAddress = mongoose.model(
+  "shippingAddress",
   ShippingAddressSchema
 );
-module.exports = ShippingAddress;
+module.exports = _shippingAddress;
