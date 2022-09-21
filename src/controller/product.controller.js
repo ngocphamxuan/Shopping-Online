@@ -2,7 +2,7 @@ const ApiStatus = require("../constant/ApiStatus");
 const HttpStatus = require("../constant/HttpStatus");
 const CustomError = require("../error/CustomError");
 const Product = require("../model/product.model");
-const {resp} = require("../payload/response");
+const {_resp} = require("../payload/response");
 const ProductService = require("../service/product.service");
 const MessageResponse = require("../constant/MessageResponse")
 
@@ -14,12 +14,13 @@ const ProductController = {
       const productRequest = new Product({
        ...req.body
       });
-      const data = await ProductService.saveProduct(productRequest)
-      return resp(res, HttpStatus.ACCEPTED, ApiStatus.SUCCESS, MessageResponse.SUCCESS, data)
+      const inventories = req.body.quantity
+      const data = await ProductService.createProduct(productRequest)
+      return _resp(res, HttpStatus.ACCEPTED, ApiStatus.SUCCESS, MessageResponse.SUCCESS, data)
     } catch (error) {
       if(error instanceof CustomError) 
-        return resp(res, error.httpStatus, error.apiStatus, error.message, {})
-      return resp(res, HttpStatus.INTERNAL_SERVER_ERROR, ApiStatus.OTHER_ERR, MessageResponse.OTHER_ERR, {})
+        return _resp(res, error.httpStatus, error.apiStatus, error.message, {})
+      return _resp(res, HttpStatus.INTERNAL_SERVER_ERROR, ApiStatus.OTHER_ERR, MessageResponse.OTHER_ERR, {})
     }
   },
   updateProduct: async (req, res, next) => {

@@ -8,5 +8,5 @@ const resp = function (res, httpStatus, apiStatus, message, data) {
 }
 
 module.exports = {
-    resp: resp
+    _resp: resp
 }

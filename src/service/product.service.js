@@ -1,15 +1,20 @@
 const ApiStatus = require("../constant/ApiStatus");
 const HttpStatus = require("../constant/HttpStatus");
-const ProductController = require("../controller/product.controller");
 const CustomError = require("../error/CustomError");
+const _inventory = require("../model/inventory.model");
 const _product = require("../model/product.model");
 const Product = require("../model/product.model");
 require("../error/CustomError");
 
 const ProductService = {
-  createProduct: async (newProduct) => {
+  createProduct: async (newProduct, quantity) => {
     try {
-       return await _product.create(newProduct);
+
+       const res =  await _product.create(newProduct);
+       const inventory = await _inventory.create({
+        quantity: quantity,
+        productId: res.id
+       })
     } catch (error) {
       throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
     }

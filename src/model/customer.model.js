@@ -7,8 +7,10 @@ const CustomerSchema = new Schema(
     email: {
       type: String,
       unique: true,
-      required: true,
-      dropDups: true,
+      index: {
+        required: true,
+        dropDups: true,
+      },
       validate(value) {
         if (!validator.isEmail(value))
           throw new Error(`Invalid Email: ${value}`);
@@ -55,6 +57,7 @@ const CustomerSchema = new Schema(
   {
     collection: "customers",
     timestamps: true,
+    strict: true,
   }
 );
 

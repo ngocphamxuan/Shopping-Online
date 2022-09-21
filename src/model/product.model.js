@@ -34,18 +34,18 @@ const ProductSchema = new Schema({
   },
   onTheTop: {
     type: Boolean,
-    default: true,
+    default: false,
   },
-  rateId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Rate",
-  },
-  discountId: {
-    type: Schema.Types.ObjectId,
-    default: DISCOUNT.ID_DEFAULT,
-    ref: "Discount",
-  },
+  // rateId: {
+  //   type: Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: "Rate",
+  // },
+  // discountId: {
+  //   type: Schema.Types.ObjectId,
+  //   default: DISCOUNT.ID_DEFAULT,
+  //   ref: "Discount",
+  // },
 }, {
   collection: 'products',
   timestamps: true,
