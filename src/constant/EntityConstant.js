@@ -22,8 +22,8 @@ const OrderStatus = {
     CONFIRMED: 1, //confirmed order
     DELIVERING: 2, //Delivering
     COMPLETED: 3, //Completed order,
-    CUSTOMERCANCEL: 4,
-    STAFFCANCEL: 5,
+    CUSTOMERCANCEL: -1,
+    STAFFCANCEL: -2,
 
 }
 const PaymentType = {

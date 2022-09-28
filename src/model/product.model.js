@@ -10,7 +10,7 @@ const ProductSchema = new Schema({
     type: Schema.Types.Array,
     default: ["product_default.png"],
   },
-  category_IDs: {
+  categorys: {
     type: Schema.Types.Array,
     required: true,
   },
@@ -32,10 +32,20 @@ const ProductSchema = new Schema({
     required: true,
     default: 1,
   },
-  onTheTop: {
+  displayInTopStore: {
     type: Boolean,
     default: false,
   },
+  ratingStar: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  soldQuantity: {
+    type: Number,
+    required: false,
+    default: 0
+  }
   // rateId: {
   //   type: Schema.Types.ObjectId,
   //   required: true,

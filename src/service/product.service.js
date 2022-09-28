@@ -15,6 +15,7 @@ const ProductService = {
         quantity: quantity,
         productId: res.id
        })
+       return res
     } catch (error) {
       throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
     }

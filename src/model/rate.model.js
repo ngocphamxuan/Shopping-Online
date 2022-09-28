@@ -2,22 +2,28 @@ const { Schema, default: mongoose } = require("mongoose");
 
 const RateSchema = new Schema(
   {
-    ratingStart: {
-      type: Number,
+    productId: {
+      type: Schema.Types.ObjectId,
       required: true,
-      default: 0,
+      ref: '_product'
     },
-    ratingCount: {
+    customerId: {
+      type: Schema.Types.ObjectId,
+    },
+    star: {
       type: Number,
       required: true,
-      default: 0,
+    },
+    comment: {
+      type: Schema.Types.String,
+      required: false
     },
   },
   {
-    collection: "rates",
+    collection: "_rate",
     timestamps: true,
   }
 );
 
-const _rate = mongoose.model("rates", RateSchema);
+const _rate = mongoose.model("_rate", RateSchema);
 module.exports = _rate;
