@@ -12,10 +12,10 @@ const ProductController = {
   createProduct: async (req, res, next) => {
     try {
       const productRequest = new Product({
-       ...req.body
+        ...req.body
       });
-      const inventories = req.body.quantity
-      const data = await ProductService.createProduct(productRequest)
+      const quantity = req.body.quantity
+      const data = await ProductService.createProduct(productRequest, quantity)
       return _resp(res, HttpStatus.ACCEPTED, ApiStatus.SUCCESS, MessageResponse.SUCCESS, data)
     } catch (error) {
       if(error instanceof CustomError) 

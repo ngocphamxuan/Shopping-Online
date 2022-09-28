@@ -3,7 +3,7 @@ const { OrderStatus } = require("../constant/EntityConstant");
 
 const OrdersSchema = new Schema(
   {
-    customerID: {
+    customerId: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
@@ -20,6 +20,7 @@ const OrdersSchema = new Schema(
     total: {
       type: Number,
       required: true,
+      default: 0
     },
     status: {
       type: Number,
@@ -31,11 +32,15 @@ const OrdersSchema = new Schema(
       required: true,
       ref: "ShippingAddress",
     },
-    payment: {
-      type: String,
-      required: true,
-      default: PaymentType.COD,
+    note: {
+      type: Object,
+      required: false,
     },
+    // payment: {
+    //   type: String,
+    //   required: true,
+    //   default: PaymentType.COD,
+    // },
     products: {
       type: Schema.Types.Array,
       required: true,

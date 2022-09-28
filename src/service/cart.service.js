@@ -1,26 +1,23 @@
 const _cart = require("../model/cart.model");
-const Cart = require("../model/cart.model");
 const _inventory = require("../model/inventory.model");
 
 const CartService = {
-  saveCart: async (cart) => {},
-  //   getCartByID: async (id) => {
-  //     try {
-  //       const cart = await Cart.findById(id);
-  //       const listCartItems = await CartItems.find({
-  //         cartId: cart.id,
-  //       });
-
-  //       cart.listCartItems = listCartItems;
-  //       console.log(cart);
-  //       return {
-  //         ...cart._doc,
-  //         listCartItems,
-  //       };
-  //     } catch (error) {
-  //       return error;
-  //     }
-  //   },
+  getCartByCustomerID: async (customerId) => {
+    try {
+      return await _cart.findOneAndUpdate(
+        {
+          customerId: customerId,
+        },
+        {},
+        {
+          upsert: true,
+          new: true,
+        }
+      );
+    } catch (error) {
+      return error;
+    }
+  },
   addProductToCart: async (productId, customerId, quantity) => {
     try {
       const oldCartPromise = _cart.findOne({
@@ -70,7 +67,7 @@ const CartService = {
           },
           oldCart
         );
-        if(!res.modifiedCount) throw new Error('Cant add to cart')
+        if (!res.modifiedCount) throw new Error("Cant add to cart");
         return oldCart;
       } else {
         // Update cart
@@ -99,6 +96,21 @@ const CartService = {
     } catch (error) {
       throw error;
     }
+  },
+  deleteCartItem: async (customerId, productsDelete) => {
+    return await _cart.findOneAndUpdate(
+      {
+        customerId: customerId,
+      },
+      {
+        $pullAll: {
+          products: productsDelete,
+        },
+      },
+      {
+        new: true,
+      }
+    );
   },
 };
 module.exports = CartService;
