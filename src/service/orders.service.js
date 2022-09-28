@@ -1,21 +1,31 @@
 const { OrderStatus } = require("../constant/EntityConstant");
+const HttpStatus = require("../constant/HttpStatus");
+const ApiStatus = require("../constant/ApiStatus");
+const CustomError = require("../error/CustomError");
 const _cart = require("../model/cart.model");
 const _orders = require("../model/order.model");
 const _product = require("../model/product.model");
 
 const OrdersService = {
   getById: async (id) => {
-    return await _orders.findById(id)
+    const order = await _orders.findById(id);
+    if (!order)
+      throw new CustomError(
+        HttpStatus.NOT_FOUND,
+        ApiStatus.INVALID_PARAM,
+        `Cant found order with id: ${id}`
+      );
+    return order
   },
   save: async (orderSave) => {
-    return orderSave.save()
+    return orderSave.save();
   },
   create: async (newOrder) => {
     try {
       const listProductPromise = newOrder.products.map((item) =>
         _product.findById(item.productId).then((product) => {
           // update sold quantity
-          product.soldQuantity += item.quantity
+          product.soldQuantity += item.quantity;
           return product.price * item.quantity;
         })
       );
@@ -53,14 +63,11 @@ const OrdersService = {
     });
   },
   updateStatusOrder: async (orderId, status) => {
-    return await _orders.findOneAndUpdate(
-      {
-        id: orderId,
-      },
-      {
-        status: status,
-      }
-    );
+    const order = await _orders.findById(orderId);
+    if (!order)
+      throw new CustomError(404, 3, `Not found order with id: ${orderId}`);
+    order.status = status;
+    return await order.save();
   },
   cancelOrder: async (orderId, reason) => {
     return await _orders.findOneAndUpdate(
@@ -72,6 +79,19 @@ const OrdersService = {
         note: reason,
       }
     );
+  },
+  getAllOrders: async (filter) => {
+    console.log(filter);
+    return await _orders
+      .find({
+        status: filter.status,
+        orderDate: {
+          $gte: filter.startDate,
+          $lte: filter.endDate,
+        },
+      })
+      .skip(filter.skip - 1)
+      .limit(filter.limit * filter.skip);
   },
 };
 
