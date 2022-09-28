@@ -8,7 +8,9 @@ const MessageResponse = require("../constant/MessageResponse")
 
 const ProductController = {
   getProductByDicount: {},
-  getTopProductRating: {},
+  getTopProductRating: async (req, res, next) => {
+    
+  },
   createProduct: async (req, res, next) => {
     try {
       const productRequest = new Product({

@@ -41,6 +41,11 @@ const ProductSchema = new Schema({
     required: false,
     default: 0,
   },
+  ratingCount: {
+    type: Number,
+    required: false,
+    default: 0
+  },
   soldQuantity: {
     type: Number,
     required: false,
