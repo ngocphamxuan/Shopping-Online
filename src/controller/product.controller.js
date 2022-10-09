@@ -40,15 +40,28 @@ const ProductController = {
   //page, limit
   getAllProduct: async (req, res, next) => {
     try {
-        const page = req.query['page'] > 0 ? req.query['page'] : 1
-        const limit = req.query['limit'] > 0 ? req.query['limit'] : 10
-        const data = await ProductService.getAllProduct(page, limit)
-        return resp(res, HttpStatus.ACCEPTED, ApiStatus.SUCCESS, MessageResponse.SUCCESS, data)
+        const skip = req.query.skip > 0 ? req.query.skip : 1
+        const limit = req.query.limit > 0 ? req.query.limit : 10
+        const products = await ProductService.getAllProduct(skip, limit)
+        const productResponse = products.map((item) => {
+           delete item['displayInTopStore']
+           item.star = item.ratingStar / item.ratingCount
+           console.log(item.hasOwnProperty('ratingCount'))
+           console.log(item)
+           return item
+        })
+        const data = {
+          limit: limit,
+          skip: skip,
+          count: products.length,
+          products: productResponse
+        }
+        return _resp(res, HttpStatus.OK, ApiStatus.SUCCESS, MessageResponse.SUCCESS, data)
         
     } catch (error) {
         if(error instanceof CustomError) 
-        return resp(res, error.httpStatus, error.apiStatus, error.message, {})
-      return resp(res, HttpStatus.INTERNAL_SERVER_ERROR, ApiStatus.OTHER_ERR, MessageResponse.OTHER_ERR, {})
+        return _resp(res, error.httpStatus, error.apiStatus, error.message, {})
+      return _resp(res, HttpStatus.INTERNAL_SERVER_ERROR, ApiStatus.OTHER_ERR, MessageResponse.OTHER_ERR, {})
     }
   },
   getProductByID: async (req, res, next) => {

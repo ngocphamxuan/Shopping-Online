@@ -9,48 +9,79 @@ require("../error/CustomError");
 const ProductService = {
   createProduct: async (newProduct, quantity) => {
     try {
-
-       const res =  await _product.create(newProduct);
-       const inventory = await _inventory.create({
+      const res = await _product.create(newProduct);
+      const inventory = await _inventory.create({
         quantity: quantity,
-        productId: res.id
-       })
-       return res
+        productId: res.id,
+      });
+      return res;
     } catch (error) {
-      throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
+      throw new CustomError(
+        HttpStatus.BAD_REQUEST,
+        ApiStatus.INVALID_PARAM,
+        error.message
+      );
     }
   },
   getAllProduct: async (page, limit) => {
     try {
-        return await Product.find({}).limit(limit*1).skip((page-1)*limit).exec();
+      return await Product.find({})
+        .limit(limit * 1)
+        .skip((page - 1) * limit).exec()
     } catch (error) {
-        throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
+      throw new CustomError(
+        HttpStatus.BAD_REQUEST,
+        ApiStatus.INVALID_PARAM,
+        error.message
+      );
     }
   },
   getProductByID: async (id) => {
-    try{
-        return await Product.findById(id).catch(error => {
-            throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, `Cant found product with id: ${id}`);
-        })
-    } catch(error){
-        throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
+    try {
+      return await Product.findById(id).catch((error) => {
+        throw new CustomError(
+          HttpStatus.BAD_REQUEST,
+          ApiStatus.INVALID_PARAM,
+          `Cant found product with id: ${id}`
+        );
+      });
+    } catch (error) {
+      throw new CustomError(
+        HttpStatus.BAD_REQUEST,
+        ApiStatus.INVALID_PARAM,
+        error.message
+      );
     }
   },
   updateProduct: async (id) => {
     try {
-        return await Product.findByIdAndUpdate(id).catch(error => {
-            throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, `Cant found product with id: ${id}`);
-        })
+      return await Product.findByIdAndUpdate(id).catch((error) => {
+        throw new CustomError(
+          HttpStatus.BAD_REQUEST,
+          ApiStatus.INVALID_PARAM,
+          `Cant found product with id: ${id}`
+        );
+      });
     } catch (error) {
-        throw new CustomError(HttpStatus.BAD_REQUEST, ApiStatus.INVALID_PARAM, error.message);
+      throw new CustomError(
+        HttpStatus.BAD_REQUEST,
+        ApiStatus.INVALID_PARAM,
+        error.message
+      );
     }
+  },
+  updateRating: async (id, star) => {
+    return await _product.findByIdAndUpdate(id, {
+      $inc: {
+        ratingStar: star,
+        ratingCount: 1,
+      },
+    });
   },
   getQuantityAvalibleByID: async (id) => {
     try {
-      return
-    } catch (error) {
-      
-    }
+      return;
+    } catch (error) {}
   },
 };
 

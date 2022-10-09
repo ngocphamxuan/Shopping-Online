@@ -65,8 +65,11 @@ const OrdersService = {
   updateStatusOrder: async (orderId, status) => {
     const order = await _orders.findById(orderId);
     if (!order)
-      throw new CustomError(404, 3, `Not found order with id: ${orderId}`);
+      throw new CustomError(HttpStatus.NOT_FOUND, ApiStatus.INVALID_PARAM, `Not found order with id: ${orderId}`);
     order.status = status;
+    if(order.status === OrderStatus.COMPLETED) {
+      order.products.map()
+    }
     return await order.save();
   },
   cancelOrder: async (orderId, reason) => {
