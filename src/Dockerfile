@@ -6,4 +6,4 @@ EXPOSE 8080
 
 ENV WDS_SOCKET_PORT=0
 
-CMD [ "sh", "run.sh"]
+CMD [ "sh", "./run.sh"]
